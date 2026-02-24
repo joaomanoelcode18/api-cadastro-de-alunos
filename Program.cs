@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+Console.WriteLine(builder.Environment.EnvironmentName);
 
 // ======================
 // DATABASE
@@ -69,7 +70,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("ReactPolicy",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000")
+            //policy.WithOrigins("http://localhost:3000")
+               policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -140,5 +142,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Add($"http://*:{port}");
 
 app.Run();
