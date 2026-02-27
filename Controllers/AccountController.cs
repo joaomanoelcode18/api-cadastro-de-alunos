@@ -46,7 +46,7 @@ namespace AlunoWeb
             else
             {
                 //ModelState.AddModelError("CreateUser", "Registro inválido.");
-                return BadRequest(ModelState);
+                return BadRequest(result.Errors);
             }
         }
         [HttpPost("LoginUser")]
