@@ -7,6 +7,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
+
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 Console.WriteLine(builder.Environment.EnvironmentName);
 
@@ -123,7 +127,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("https://projeto-react-jqy1-q5ye8sps6-joaomanoelcode18s-projects.vercel.app")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
+
+
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 // ======================
 // PIPELINE
