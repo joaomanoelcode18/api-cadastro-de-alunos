@@ -7,21 +7,16 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-
-
-
-
 var builder = WebApplication.CreateBuilder(args);
 Console.WriteLine(builder.Environment.EnvironmentName);
 
 // ======================
 // DATABASE
 // ======================
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection")));
-        
+
 // ======================
 // IDENTITY
 // ======================
@@ -67,17 +62,17 @@ builder.Services.AddAuthentication(options =>
 });
 
 // ======================
-// CORS (React)
+// CORS (React / Vercel)
 // ======================
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("ReactPolicy",
+    options.AddPolicy("AllowAll",
         policy =>
         {
-            //policy.WithOrigins("http://localhost:3000")
-               policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
         });
 });
 
@@ -127,22 +122,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy
-                .WithOrigins("https://projeto-react-jqy1-q5ye8sps6-joaomanoelcode18s-projects.vercel.app")
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
-});
-
-
 var app = builder.Build();
 
-app.UseCors("AllowFrontend");
+// 🔥 CORS precisa vir antes de Authentication
+app.UseCors("AllowAll");
 
 // ======================
 // PIPELINE
@@ -154,8 +137,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseCors("ReactPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
