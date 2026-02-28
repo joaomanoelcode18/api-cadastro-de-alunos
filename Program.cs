@@ -130,28 +130,37 @@ app.UseCors("AllowAll");
 // ======================
 // PIPELINE
 // ======================
-
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
+    }
 
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-//var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-//app.Urls.Add($"http://0.0.0.0:{port}");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Add($"http://0.0.0.0:{port}");
 
 
+if(app.Environment.IsDevelopment())
+{
+   
 
-using (var scope = app.Services.CreateScope())
+using var scope = app.Services.CreateScope();
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
-}
+}}
 
 
 app.Run();
