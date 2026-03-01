@@ -129,11 +129,11 @@ var app = builder.Build();
 // ======================
 // PIPELINE
 // ======================
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+////{
     app.UseSwagger();
     app.UseSwaggerUI();
-    }
+   // }
 
 
 
