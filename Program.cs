@@ -66,13 +66,14 @@ builder.Services.AddAuthentication(options =>
 // ======================
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
+    options.AddPolicy("AllowFrontend",
         policy =>
         {
             policy
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
+                .WithOrigins("https://projeto-react-jqy1-nksblihf9-joaomanoelcode18s-projects.vercel.app")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+                
         });
 });
 
@@ -142,9 +143,12 @@ if (app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 
 app.MapControllers();
 
