@@ -66,10 +66,10 @@ builder.Services.AddAuthentication(options =>
 // ======================
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowVercel",
+    options.AddPolicy("AllowAll",
         policy =>
         {
-            policy.WithOrigins("https://projeto-react-jqy1-72kgqzfwm-joaomanoelcode18s-projects.vercel.app")
+            policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -140,7 +140,7 @@ var app = builder.Build();
     app.UseHttpsRedirection();
 
 
-app.UseCors("AllowVercel");
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
