@@ -147,19 +147,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Urls.Add($"http://0.0.0.0:{port}");
-
-
-if(app.Environment.IsDevelopment())
-{
-   
-
-using var scope = app.Services.CreateScope();
+using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
-}}
+}
 
 
-app.Run();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+app.Run($"http://0.0.0.0:{port}");
+
+
+
