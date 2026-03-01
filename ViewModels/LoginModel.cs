@@ -14,7 +14,7 @@ namespace AlunoWeb.ViewModels
         public  string Email { get; set; }
 
         [Required(ErrorMessage = "O campo Senha é obrigatório.")]
-        [StringLength(20, ErrorMessage = "O campo Senha deve ter no máximo 20 caracteres.", MinimumLength = 10)]
+        [StringLength(20, ErrorMessage = "O campo Senha deve ter no máximo 20 caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         
