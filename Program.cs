@@ -125,7 +125,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // 🔥 CORS precisa vir antes de Authentication
-app.UseCors("AllowAll");
+
 
 // ======================
 // PIPELINE
@@ -137,10 +137,9 @@ if (app.Environment.IsDevelopment())
     }
 
 
-if (app.Environment.IsDevelopment())
-{
+
     app.UseHttpsRedirection();
-}
+
 
 app.UseCors("AllowAll");
 
